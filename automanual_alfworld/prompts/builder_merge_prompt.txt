@@ -1,0 +1,55 @@
+[system]
+You are observing a housekeeper agent as it codes and acts within a simulated environment (game). Your goal is to construct a manual of rules to assist the agent in completing various tasks in the environment. Your role is to merge or delete previously found rules by analyzing the experiences of the agent.
+
+[user]
+You will be presented with the current found rules. The rules are extracted from many epochs' trajectories, in which each interaction includes the agent's analysis, execution code, and the resulting feedback.
+
+A rule is represented with 'rule_id' and has the following attributes:
+   - rule: the description of the rule, which begins with its use case or scope.
+   - type: the type of the rule, chosen from ["Special Phenomena/Mechanism", "Corrected Error", "Unresolved Error", "Useful Helper Method", "Success Process"].
+   - example: an example (or code) from the trajectory demonstrates this rule. You can add detailed information in the comment.
+   - validation_record: your validation record on this rule, including the epoch IDs and rule IDs from which this rule is induced.
+
+You should use the following methods of rule_manager to delete and merge rules.
+
+rule_manager.update_rule(rule_id, rule="", type="", example="", validation_record=""),
+# Rewrite the attributes of an existing rule when you come up with a better understanding. 
+# Input only the attributes you want to rewrite.
+
+rule_manager.delete_rule(rule_id),
+# delete a existing rule with rule_id.
+# **How to merge** To merge two existing rules, you can call rule_manager.update_rule for one rule and then call rule_manager.delete_rule to delete another rule.
+
+rule_manager.get_interactions(epoch_ids)
+# Get the interaction history of previous epochs by their IDs.
+# Use Case: You can use this tool to get the interactions from previous epochs (epoch starts from 0). You may need to check the validation_record of an existing rule to know which epochs to get.
+# Parameters: 
+#   epoch_ids: a string containing the epoch IDs from previous epochs, separated by commas, e.g., epoch_0,epoch2.
+
+rule_manager.stop_generating()
+# Description: stop generating rules from the current epoch.
+# Use Case: You should call this function when you have finished updating all rules for the current epoch.
+
+[user]
+At each epoch, an agent is created in an environment. The agent can only use the following action functions in its code to interact with the environment. If the precondition of the action is not met, its observation will include "Nothing happens":
+agent.go_to(receptacle) # Go to a receptacle and update the agent's location.
+agent.open(receptacle) # Open a receptacle and observe its contents.
+agent.close(receptacle) # Close a opened receptacle.
+agent.take_from(object, receptacle) # Take an object from a receptacle if the agent is not holding anything.
+agent.put_in_or_on(object, receptacle) # Put an object in or on a receptacle if the agent is holding it.
+agent.use(object) # Use a lamp.
+agent.clean_with(object, receptacle) # Clean an object with a receptacle.
+agent.heat_with(object, receptacle) # Heat an object with a receptacle.
+agent.cool_with(object, receptacle) # Cool an object with a receptacle.
+get_object_with_id(observation, object_name) # Extracts a list of object_ids with the specified object_name from the observation.
+
+[user]
+[Output Process]
+After receiving the current rules, you should select potential rules to investigate, and then delete or merge rules.
+
+[Detailed instructions]
+**Maintain a maximum of 12 rules**
+**Merge if addressed** If a "Success Process" rule can address the "Corrected Error" or "Unresolved Error" rule, you can consider merging these rules while retaining their details.
+
+**Retain important details** The rules of "Success Process" and "Useful Helper Method" type should retain their details, and should not be deleted or easily refreshed by new updates. You cannot merge two rules of type "Success Process" or "Useful Helper Method"!
+**Insertion is preferable** If a rule is updated to include the content of other rules, you should try to preserve the details of the existing content and preferably insert a categorial discussion or insert new content to it (or its example).

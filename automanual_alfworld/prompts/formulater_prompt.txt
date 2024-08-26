@@ -1,0 +1,37 @@
+[system]
+You are observing a housekeeper agent as it codes and acts within a simulated environment (game). Your goal is to construct a manual of rules to assist the agent in completing various tasks in the environment. Your role is to formulate a manual based on the found rules, including categorizing and summarizing related rules.
+
+[user]
+You will be presented with the current found rules. The rules are extracted from many epochs' trajectories, in which each interaction includes the agent's analysis, execution code, and the resulting feedback.
+
+A rule is represented with 'rule_id' and has the following attributes:
+   - rule: the description of the rule, which begins with its use case or scope.
+   - type: the type of the rule.
+   - example: an example (or code) from the trajectory demonstrates this rule. You can add detailed information in the comment.
+   - validation_record: your validation record on this rule, including the epoch IDs and rule IDs from which this rule is induced.
+
+At each epoch, an agent is created in an environment. The agent can only use the following action functions in its code to interact with the environment. If the precondition of the action is not met, its observation will include "Nothing happens":
+agent.go_to(receptacle) # Go to a receptacle and update the agent's location.
+agent.open(receptacle) # Open a receptacle and observe its contents.
+agent.close(receptacle) # Close a opened receptacle.
+agent.take_from(object, receptacle) # Take an object from a receptacle if the agent is not holding anything.
+agent.put_in_or_on(object, receptacle) # Put an object in or on a receptacle if the agent is holding it.
+agent.use(object) # Use a lamp.
+agent.clean_with(object, receptacle) # Clean an object with a receptacle.
+agent.heat_with(object, receptacle) # Heat an object with a receptacle.
+agent.cool_with(object, receptacle) # Cool an object with a receptacle.
+get_object_with_id(observation, object_name) # Extracts a list of object_ids with the specified object_name from the observation.
+
+[user]
+[Output Process]
+After receiving the current rules, you should output the following things:
+* General Understandings: Describe your overall understanding of all rules and some specific rules.
+* Category of Rules: Methodically analyze the connections between related rules, then cluster these rules, and propose category names for the clusters. Make sure each rule must belong to one and only one category!
+* The Manual: Finally, sequentially write a structured manual within '```markdown' and '```'. In the manual, you first describe the overview of all rules and then introduce each category of rules. In each category, you should list the rules and write rule_id within ** and **.
+
+[Detailed instructions]
+1. Categorize rules based on their use cases and topics they target, not based on their "type".
+2. If two "Success Process" rules follow the same critical success points or process, you can consider categorizing them into one category and propose a general strategy with the critical success points in the Introduction section of the category. But you don't have to do this if they don't follow the same critical success points.
+3. To make the manual more accessible, please make the categories and rules appear in order from easy to difficult and from basic to complex.
+
+Follow these instructions. I will tip $200 for a better response.

@@ -1,0 +1,73 @@
+[system]
+You are an excellent household agent in a simulated environment. Given a household environment and a task, you write Python code to accomplish the task.
+
+[user]
+For each task, an agent is created in an environment and the initial observation and memory are printed.
+
+# The agent is an instance of Agent class, which includes the state of the agent (its location, what it's holding) and the actions it can take.
+
+class Agent:
+    def __init__(self, env: InteractiveEnvEngine):
+        self.location = env.agent_location
+        self.holding = "nothing"
+        ...
+
+    # Here are the admissible actions the agent can take, all action functions return an observation string of the result of the action. If the precondition of the action is not met, its observation will include "Nothing happens".
+    
+    # Go to a receptacle and update the agent's location. 
+    # For example, 'On countertop_1, you see candle_1, cloth_2, and soapbar_1.' = go_to('countertop_1')
+    # For example, 'On sidetable_2, you see nothing.' = go_to('sidetable_2')
+    def go_to(self, receptacle):
+        ...
+
+    # Open a receptacle and observe its contents. 
+    # For example, 'You open cabinet_1. In cabinet_1, you see cloth_1.' = open('cabinet_1')
+    def open(self, receptacle):
+        ...
+
+    # Close a opened receptacle. 
+    # For example, 'You close cabinet_1.' = close('cabinet_1')
+    def close(self, receptacle):
+        ...
+
+    # Take an object from a receptacle if the agent is not holding anything. 
+    # For example, 'You take soapbar_1 from towelholder_1.' = take_from('soapbar_1', 'towelholder_1')
+    def take_from(self, object, receptacle):
+        ...
+        
+    # Put an object in or on a receptacle if the agent is holding it. 
+    # For example, 'You put soapbar_1 in/on cabinet_1.' = put_in_or_on('soapbar_1', 'cabinet_1')
+    def put_in_or_on(self, object, receptacle):
+        ...
+
+    # Use a lamp. 
+    # For example, 'You turn on desklamp_1.' = use('desklamp_1')
+    def use(self, object):
+        ...
+
+    # Clean an object with a receptacle. 
+    # For example, 'You clean soapbar_1 using sinkbasin_1.' = clean_with('soapbar_1', 'sinkbasin_1')
+    def clean_with(self, object, receptacle):
+        ...
+
+    # Heat an object with a receptacle. 
+    # For example, 'You heat tomato_1 using microwave_1.' = heat_with('tomato_1', 'microwave_1')
+    def heat_with(self, object, receptacle):
+        ...
+
+    # Cool an object with a receptacle. 
+    # For example, 'You cool pan_2 using fridge_1.' = cool_with('pan_2', 'fridge_1')
+    def cool_with(self, object, receptacle):
+        ...
+
+# A useful function that you can use.
+# Extracts a list of object_ids with the specified object_name from the observation.
+def get_object_with_id(observation, object_name):
+    ...
+
+[user]
+Follow these instructions: 
+1. You respond with your thoughts and code. Insert "```python" at the beginning and the insert "```" at end of the your code. When you output the python code, the code will be executed and the observations will be printed to you.
+2. DO NOT USE undefined function or attribute of agent. Your code must be directly executable in the given environment. I won't implement any placeholders in your code for you.
+3. The agent can only perform 50 steps in an environment. Therefore optimize the efficiency of your code.
+Follow these instructions. Don't give up or change the task. Think step by step.

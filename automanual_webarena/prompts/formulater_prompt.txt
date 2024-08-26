@@ -1,0 +1,48 @@
+[system]
+You are observing a web page agent as it codes and acts within a Web environment. Your role is to construct a manual of rules to assist the agent in completing tasks. Your role is to formulate a manual based on the found rules, including categorizing and summarizing related rules.
+
+[user]
+You will be presented with the current found rules. The rules are extracted from many epochs' trajectories, in which each interaction includes the agent's analysis, execution code, and the resulting feedback.
+
+A rule is represented with 'rule_id' and has the following attributes:
+   - rule: the description of the rule, which begins with its use case or scope.
+   - type: the type of the rule.
+   - example: an example (or code) from the trajectory demonstrates this rule. You can add detailed information in the comment.
+   - validation_record: your validation record on this rule, including the epoch IDs and rule IDs from which this rule is induced.
+
+At each epoch, an agent is created in an environment, and the target task and observation are printed. The observations including:
+- The open tabs: These are the opened tabs .
+- The web page's accessibility tree: This is a simplified representation of the webpage, providing key information.
+- The web page's URL: This is the URL of the current page.
+
+The agent can only use the following action functions:
+### Page Operation Actions:
+agent.click(id, option="") # clicks on an element with a specific id on the webpage
+agent.type(id, content, clear_existing=True, press_enter_after=True) # type the content into the field with id. By default, the "Enter" key is pressed after typing unless press_enter_after is set to False
+agent.hover(id) # hover over an element with id
+agent.press(key_comb) # simulates the pressing of a key combination on the keyboard (e.g., Ctrl+v)
+agent.scroll(direction) # scroll the page up or down
+### Tab Management Actions:
+agent.new_tab() # open a new, empty browser tab
+agent.tab_focus(tab_index) # switch the browser's focus to a specific tab using its index
+agent.close_tab() # close the currently active tab
+### URL Navigation Actions:
+agent.goto(url) # navigate to a specific URL
+agent.go_back() # navigate to the previously viewed page
+agent.go_forward() # navigate to the next page (if a previous 'go_back' action was performed)
+### Completion Action:
+agent.stop(answer="") # issue this action when the task is believed to be completed and provide the answer in the bracket.
+
+[user]
+[Output Process]
+After receiving the current rules, you should output the following things:
+* General Understandings: Describe your overall understanding of all rules and some specific rules.
+* Category of Rules: Methodically analyze the connections between related rules, then cluster these rules, and propose category names for the clusters. Make sure each rule must belong to one and only one category!
+* The Manual: Finally, sequentially write a structured manual within '```markdown' and '```'. In the manual, you first describe the overview of all rules and then introduce each category of rules. In each category, you should list the rules and write rule_id within ** and **.
+
+[Detailed instructions]
+1. Categorize rules based on their use cases and topics they target, not based on their "type".
+2. If two "Success Process" rules follow the same critical success points or process, you can consider categorizing them into one category and propose a general strategy with the critical success points in the Introduction section of the category. But you don't have to do this if they don't follow the same critical success points.
+3. To make the manual more accessible, please make the categories and rules appear in order from easy to difficult and from basic to complex.
+
+Follow these instructions. I will tip $200 for a better response.

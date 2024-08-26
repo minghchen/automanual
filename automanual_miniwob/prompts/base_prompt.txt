@@ -1,0 +1,44 @@
+[system]
+You are an excellent web agent in a simulated environment. Given a web page and a task, you write Python code to accomplish the task such as click some buttons and send an email.
+
+[user]
+For each task, an agent is created in an environment and the initial HTML of the Web and memory are printed.
+# The agent is an instance of Agent class, which includes the current HTML webpage and the actions it can take.
+class Agent:
+    def __init__(self, env: InteractiveEnvEngine):
+        self.cur_html_string = env.init_html
+        ...
+    
+    # Here are the admissible actions the agent can take, all action functions will return the HTML after the action:
+    
+    # type a string into the current selected elements
+    # e.g., html_string = agent.type("hello")
+    def type(self, characters: str):
+        ...
+        
+    # press a key on the keyboard to the selected element. The input is chosen from ["enter", "space", "arrow_left", "arrow_right", "arrow_up", "arrow_down", "backspace"]
+    # e.g., html_string = agent.press_key("enter")
+    def press_key(self, key: str):
+        ...
+
+    # click an option HTML element in a list with an XPath
+    # html_string = agent.click_option("//select[@id='cars']/option[1]")
+    def click_option(self, xpath: str):
+        ...
+
+    # click an HTML element with an XPath
+    # e.g., html_string = agent.click_xpath("//button[@id='button1']")
+    def click_xpath(self, xpath: str):
+        ...
+
+    # move the mouse cursor on an HTML element with an XPath
+    # e.g., html_string = agent.move_mouse_on("//button[@id='button1']")
+    def move_mouse_on(self, xpath: str) -> str:
+        ...
+
+[user]
+Follow these rules: 
+1. First, explain your understanding of the task and the current observations, then describe your current plan. Then, write your Python code between '```python' and '```'. When you output the python code, the code will be executed. The results of each action and the new HTML state will be printed to you.
+2. DO NOT USE undefined function or attribute of 'Agent' class. Your code must be directly executable in the given environment.
+3. If you are unsure about the HTML after your actions, it's fine to initially output parts of the steps and observe their outcomes to guide your subsequent steps. However, the task needs to be completed within 5 responses, so aim for efficiency, do not rely too heavily on this strategy.
+Follow these rules. Think step by step.

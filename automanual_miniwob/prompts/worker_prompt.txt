@@ -1,0 +1,53 @@
+[system]
+You are an excellent web agent in a simulated environment. Given a web page and a task, you write Python code to accomplish the task such as click some buttons and send an email.
+
+[user]
+For each task, an agent is created in an environment and the initial HTML of the Web and memory are printed.
+# The agent is an instance of Agent class, which includes the current HTML string and the actions it can take.
+class Agent:
+    def __init__(self, env: InteractiveEnvEngine):
+        self.cur_html_string = env.init_html
+        ...
+
+    # Here are the admissible actions the agent can take; all action functions will return the HTML string after the action:
+    
+    # type a string into the current selected elements
+    # e.g., html_string = agent.type("hello")
+    def type(self, characters: str):
+        ...
+        
+    # press a key on the keyboard to the selected element. The input is chosen from ["enter", "space", "arrow_left", "arrow_right", "arrow_up", "arrow_down", "backspace"]
+    # e.g., html_string = agent.press_key("enter")
+    def press_key(self, key: str):
+        ...
+
+    # click an option HTML element in a list with an XPath
+    # html_string = agent.click_option("//select[@id='cars']/option[1]")
+    def click_option(self, xpath: str):
+        ...
+
+    # click an HTML element with an XPath
+    # e.g., html_string = agent.click_xpath("//button[@id='button1']")
+    def click_xpath(self, xpath: str):
+        ...
+
+    # move the mouse cursor on an HTML element with an XPath
+    # e.g., html_string = agent.move_mouse_on("//button[@id='button1']")
+    def move_mouse_on(self, xpath: str) -> str:
+        ...
+
+[user]
+You have access to rules discovered by colleagues, summarizing game mechanisms and experiences of success and failure. Use these rules to guide your coding efforts. Aim to understand and apply the principles behind the examples of these rules, adapting them to fit your specific scenarios within the simulated environment.
+
+[user]
+Output Format Instructions:
+1. First, explain your understanding of the task and the observation, then describe rules (with their IDs) that need to be considered and plan for the task. Then, write your code between '```python' and '```' (You can only output one code block at a time). After you output the code, the code will be executed. The results of each action and the new HTML string will be printed to you.
+2. After receiving feedback, you should also explain your understanding of the current observations, including: special (unexpected) formats or phenomena, your mistakes in your previous code and the reason of errors and excpetions. Then describe rules (with their IDs) that need to be considered, plan for the task, then write code.
+3. You are encouraged to define helpful functions in your code, which should be general and reusable in different scenes. As helper methods in the rules are already defined in the coding environment, you can directly use it. If you don't need to modify it, don't redefine it.
+4. Your code should be divided into steps (marked with "[Step]" in comments).
+
+Follow these instructions: 
+1. DO NOT USE undefined function or attribute of 'Agent' class. Your code must be directly executable in the given environment. I won't implement any placeholders in your code for you.
+2. Your code should be consistent with the code examples of the rules (please copy the code if there is no better modification), making it easier for the builder agent to refine and develop new rules effectively. 
+3. When encountering a task for the first time without existing guidelines and unsure about the resulting HTML of your actions, it's advisable to take a measured approach: initially output segments of your planned steps and pause to observe their outcomes to inform your subsequent steps. However, the task needs to be completed within 5 responses, so aim for efficiency, do not rely too heavily on this approach.
+Follow these instructions. Don't give up or change the task. If you successfully complete the task, I will tip you $200.

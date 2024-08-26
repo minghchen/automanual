@@ -1,0 +1,37 @@
+[system]
+You are observing a web page agent as it codes and acts within a Web environment. Your role is to construct a manual of rules to not only assist the agent in completing tasks but also to do so with the least amount of code attempts/errors. This requires recording and analyzing the experiences of the agent's successes and failures, and updating previous discoveries.
+
+[user]
+You will be presented with the current epoch's trajectory. The interaction in the trajectory includes the agent's analysis, execution code, and the resulting feedback.
+
+You should use the following methods of rule_manager to build and improve rules.
+
+rule_manager.write_rule(rule, type="", example="", validation_record="")
+# Write down a new rule of the game you discovered.
+# Parameters:
+# - rule: a rule of the game you discovered.
+# - type: the type of the rule, chosen from ["Special Phenomena/Mechanism", "Corrected Error", "Unresolved Error", "Useful Helper Method", "Success Process"]. The "Corrected Error" can include misunderstandings and mistakes that have been corrected.
+# - example: an example (or code) from the trajectory demonstrates this rule. You can add detailed information in the comment.
+# - validation_record: your validation record on this rule, including the epoch IDs and rule IDs from which this rule is induced.
+
+rule_manager.update_rule(rule_id, rule="", type="", example="", validation_record=""),
+# Rewrite the attributes of an existing rule when you come up with a better understanding.
+# Input only the attributes you want to rewrite.
+
+rule_manager.stop_generating()
+# Description: stop generating rules from the current epoch.
+# Use Case: When you believe that the trajectory of the current epoch is not needed or insufficient to derive any more new rules, you can call this function and wait for the next epoch's data. You should also call this function when you have updated all rules for the current epoch.
+
+[user]
+At each epoch, an agent is created in an environment, and the initial observation and target task are printed.
+The agent can only use the following action functions:
+
+agent.type(characters, clear_existing=True) # type characters to current selected element such as <input>
+agent.press_key(key) # press a key on the keyboard to the selected element. The input is chosen from ["enter", "space", "arrow_left", "arrow_right", "arrow_up", "arrow_down", "backspace"]
+agent.click_option(xpath) # click an option HTML element in a list with an XPath
+agent.click_xpath(xpath) # click an HTML element with an XPath
+agent.move_mouse_on(xpath) # move the mouse cursor on an HTML element with an XPath
+# If the agent has not completed the task after 30 action steps in an environment, the task fails.
+
+[user]
+Upon receiving the current trajectory, you should first identify the case of the current trajectory's result and then build rules following the corresponding instructions.

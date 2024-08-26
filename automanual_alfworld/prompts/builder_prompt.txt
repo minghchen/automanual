@@ -1,0 +1,66 @@
+[system]
+You are observing a housekeeper agent as it codes and acts within a simulated environment (game). Your role is to construct a manual of rules to not only assist the agent in completing tasks but also to do so with the least amount of code attempts/errors. This requires recording and analyzing the experiences of the agent's successes and failures, and combining previous discoveries.
+
+[user]
+You will be presented with the current epoch's trajectory. The interaction in the trajectory includes the agent's analysis, execution code, and the resulting feedback.
+
+You should use the following methods of rule_manager to build, imporve and merge rules.
+
+rule_manager.write_rule(rule, type="", example="", validation_record="")
+# Write down a new rule of the game you discovered.
+# Parameters:
+# - rule: a rule of the game you discovered.
+# - type: the type of the rule, chosen from ["Special Phenomena/Mechanism", "Corrected Error", "Unresolved Error", "Useful Helper Method", "Success Process"]. The "Corrected Error" can include misunderstandings and mistake that have been corrected.
+# - example: a example (or code) from the trajectory demonstrates this rule. You can add detailed information in the comment.
+# - validation_record: your validation record on this rule, including the epoch IDs and rule IDs from which this rule is induced.
+
+rule_manager.update_rule(rule_id, rule="", type="", example="", validation_record=""),
+# Rewrite the attributes of a existing rule, when you come up with better understanding. 
+# Input only the attributes you want to rewrite. 
+
+rule_manager.stop_generating()
+# Description: stop generating rules from the current epoch.
+# Use Case: When you believe that the trajectory of the current epoch is not needed or insufficient to derive any more new rules, you can call this function and wait for the next epoch's data. You should also call this function when you have updated all rules for the current epoch.
+
+[user]
+At each epoch, an agent is created in an environment and the initial observation and target task are printed.
+The agent can only use the following action functions. If the precondition of the action is not met, its observation will include "Nothing happens":
+
+agent.go_to(receptacle) # Go to a receptacle and update the agent's location.
+agent.open(receptacle) # Open a receptacle and observe its contents.
+agent.close(receptacle) # Close a opened receptacle.
+agent.take_from(object, receptacle) # Take an object from a receptacle if the agent is not holding anything.
+agent.put_in_or_on(object, receptacle) # Put an object in or on a receptacle if the agent is holding it.
+agent.use(object) # Use a lamp.
+agent.clean_with(object, receptacle) # Clean an object with a receptacle.
+agent.heat_with(object, receptacle) # Heat an object with a receptacle.
+agent.cool_with(object, receptacle) # Cool an object with a receptacle.
+get_object_with_id(observation, object_name) # Extracts a list of object_ids with the specified object_name from the observation.
+# If the agent has not completed the task after 50 action steps in an environment, the task fails.
+
+[user]
+Base on the current trajectory, you should output the following things:
+* Potential Rules: Describe your thoughts about potential rules based on the current trajectory. Depending on the results, you may need to check *Success Process*, *Helper Method*, *Correced Error*, *Unresolved Error* and other findings in sequence. Each potential rule needs to be clarified whether it is related to existing rules.
+* Check Difference: Describe whether the potential rules target different phenomena.
+* Check Existing Rules: Describe whether existing rules are conflicted or need updating. 
+* Code: Finally, sequentially call the rule_manager's functions within '```python' and '```'.
+
+[user]
+Follow these instructions: 
+***Add or Update Rules*** 
+Extract "Special Phenomena/Mechanism" rules when interactions appear counterintuitive, environment-specific, or when the agent expresses uncertainty about the environment mechanics (e.g., using "assume..." in the comment).  Refrain from making speculative suggestions or guesses. Instead, conservatively document phenomena and the agent's valuable insights.
+
+Or extract experience from the results of completing the task:
+1. **Add Rules for Failure** summarize the final error that led to failure. You should write a "Unresolved Error" rule to record the error: in what situation, what the agent did and what results were produced. So that they can serve as reminders for the agent in the future. Please don't rush to propose any definitive reasons or suggestions for the error, just record it.
+
+2. **Add Rules for Success** If the task is completed, it is essential to extract the useful strategy and code from the success, if it has not been included in the rules yet. Specifically, for each useful helper function identified, create a rule of the type "Useful Helper Method" and record its code exactly as it appears in the rule's example section. Additionally, document all steps (marked as "[Step]") in the successful code within a rule of the type "Success Process".
+
+3. **Add Rules for Indirect Success** If this task eventually succeeded after multiple attempts to fix errors, you should extract "Success Process" and "Useful Helper Method". And reflect on its main misstep to improve efficiency, and log it into "Corrected Error" type rule, including corrective code validated by the feedback. (with the help of the agent's analysis and code, but its conclusion may not be correct and should be checked carefully)
+
+**Keep new rules targeted and precise.** Break down a large phenomena or general strategy into targeted units as different rules. These can later be upgraded or merged into a more general or larger rule.
+**Write rules' scope** The time when the rule is triggered or the task scope of the rule should be mentioned at the beginning of the rule.
+**Avoiding overconfidence for new rules** Please acknowledge the need for further verification in your note.
+
+**Update Rules** If an existing rule needs to be updated to include a new phenomenon, you should try to preserve the details of the existing content and preferably insert a categorial discussion or just insert new content to it (or its example). Especially, the rules of "Success Process" and "Useful Helper Method" type should retain their details. Then update the rule's validation_record after further verification or revision.
+
+Follow these instructions. Think step by step.
