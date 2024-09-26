@@ -1,6 +1,6 @@
 # AutoManual
 
-Source code for [AutoManual: Generating Instruction Manuals by LLM Agents via Interactive Environmental Learning](https://arxiv.org/abs/2405.16247)
+Source code for [AutoManual: Generating Instruction Manuals by LLM Agents via Interactive Environmental Learning](https://arxiv.org/abs/2405.16247) (NeurIPS 2024)
 
 ![overview](./overview.png)
 
