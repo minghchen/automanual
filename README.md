@@ -1,6 +1,6 @@
 # AutoManual
 
-Source code for [AutoManual: Generating Instruction Manuals by LLM Agents via Interactive Environmental Learning](https://arxiv.org/abs/2405.16247) (NeurIPS 2024)
+Source code for [AutoManual: Constructing Instruction Manuals by LLM Agents via Interactive Environmental Learning](https://arxiv.org/abs/2405.16247) (NeurIPS 2024)
 
 ![overview](./overview.png)
 
@@ -137,7 +137,7 @@ We provide traces of the test results, which achieved a success rate of 65.1% in
 
 ```
 @misc{chen2024automanual,
-      title={AutoManual: Generating Instruction Manuals by LLM Agents via Interactive Environmental Learning}, 
+      title={AutoManual: Constructing Instruction Manuals by LLM Agents via Interactive Environmental Learning}, 
       author={Minghao Chen and Yihang Li and Yanting Yang and Shiyu Yu and Binbin Lin and Xiaofei He},
       year={2024},
       eprint={2405.16247},
